@@ -31,7 +31,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -57,7 +57,7 @@ public class SpawnManager : MonoBehaviour
         while(_stopSpawning == false){
             GameObject newPowerup = Instantiate(_speedPrefab, new Vector3(Random.Range(-9,9),4,0),Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(7);
+            yield return new WaitForSeconds(Random.Range(15,20));
         }
     }
 
@@ -66,12 +66,17 @@ public class SpawnManager : MonoBehaviour
         while(_stopSpawning == false){
             GameObject newPowerup = Instantiate(_shieldPrefab, new Vector3(Random.Range(-9,9),4,0),Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(7);
+            yield return new WaitForSeconds(Random.Range(15,20));
         }
     }
 
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
+    }
+
+    public void OnPlayerRestart()
+    {
+        _stopSpawning = false;
     }
 }

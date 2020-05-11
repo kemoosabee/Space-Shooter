@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private Player _player;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -21,24 +22,27 @@ public class Enemy : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other){
+
         if(other.tag == "Player")
         {
-            //damage player
             Player player = other.transform.GetComponent<Player>();
 
-            if (player!= null && player.ShieldState == true){
-
+            if(player!=null && player.ShieldState == true){
+                Destroy(this.gameObject);
             }
             else if(player != null){
                 player.Damage();
+                Destroy(this.gameObject);
             }
-            Destroy(this.gameObject);
         }
 
         if(other.tag == "Laser")
         {
             Destroy(other.gameObject);
             Destroy(this.gameObject);
+            if(_player!=null){
+                _player.AddScore();
+            }
         }
     }
 }

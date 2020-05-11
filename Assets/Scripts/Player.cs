@@ -25,12 +25,18 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _isShieldActive = false;
     public bool ShieldState = false;
+    [SerializeField]
+    private GameObject _shieldVisualizer;
+    [SerializeField]
+    private int _score = 0;
+
     // Start is called before the first frame update
     void Start()
     {
     // take the current position = new position (0,0,0)
         transform.position = new Vector3(0,0,0);
         _spawnManger = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>(); 
+        _shieldVisualizer.SetActive(false);
     }
 
     void boundary()
@@ -93,6 +99,7 @@ public class Player : MonoBehaviour
     public void ActiveShield(){
         _isShieldActive = true;
         ShieldState = true;
+        _shieldVisualizer.SetActive(true);
         StartCoroutine(ShieldDownRoutine());
     }
 
@@ -110,7 +117,20 @@ public class Player : MonoBehaviour
     IEnumerator ShieldDownRoutine(){
         yield return new WaitForSeconds(5);
         _isShieldActive = false;
+        _shieldVisualizer.SetActive(false);
         ShieldState = false;
+    }
+
+    public void AddScore(){
+        _score += 10;
+        Debug.Log("HIII");
+    }
+    public int GetScore(){
+        return _score;
+    }
+
+    public int GetLives(){
+        return _lives;
     }
 
 }
